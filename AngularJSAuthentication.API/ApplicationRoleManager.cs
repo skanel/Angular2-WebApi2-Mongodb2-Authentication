@@ -6,9 +6,12 @@
 
     public class ApplicationRoleManager : RoleManager<Role>
     {
-        public ApplicationRoleManager(ApplicationIdentityContext identityContext)
-            : base(new RoleStore<Role>(identityContext))
+        private IMongoContext mongoContext;
+
+        public ApplicationRoleManager(IMongoContext mongoContext)
+            : base(new RoleStore<Role>(mongoContext.Roles))
         {
+            this.mongoContext = mongoContext;
         }
     }
 }
