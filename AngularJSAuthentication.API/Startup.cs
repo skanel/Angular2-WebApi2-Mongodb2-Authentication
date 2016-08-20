@@ -26,7 +26,7 @@ namespace AngularJSAuthentication.API
 
             builder.RegisterType<MongoContext>().AsImplementedInterfaces<IMongoContext, ConcreteReflectionActivatorData>().SingleInstance();
 
-            builder.RegisterType<UserStore<User>>()
+            builder.RegisterType<ApplicationUserStore>()
                 .AsImplementedInterfaces<IUserStore<User>, ConcreteReflectionActivatorData>()
                 .SingleInstance();
 
