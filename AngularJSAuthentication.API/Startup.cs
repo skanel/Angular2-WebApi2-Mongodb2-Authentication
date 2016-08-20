@@ -116,7 +116,7 @@ namespace AngularJSAuthentication.API
         {
             var mongoContext = container.Resolve<IMongoContext>();
 
-            if (mongoContext.Clients.Count()==0)
+            if (mongoContext.Clients.Count(x=>true) == 0)
             {
                 mongoContext.Clients.InsertOneAsync(new Client
                     {

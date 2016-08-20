@@ -1,18 +1,18 @@
 ﻿namespace AngularJSAuthentication.API
 {
     using Entities;
-    using Microsoft.AspNet.Identity.EntityFramework;
     using MongoDB.Driver;
-    public class ApplicationIdentityContext : IdentityContext
+    public class ApplicationIdentityContext
     {
-        public ApplicationIdentityContext(IMongoContext mongoContext)
-            : this(mongoContext.Users, mongoContext.Roles)
+        private IMongoContext mongoContext;
+        private ApplicationUserManager userManager;
+
+        public ApplicationIdentityContext(
+            IMongoContext mongoContext,
+            ApplicationUserManager userManager)           
         {
-        }
-            
-        public ApplicationIdentityContext(IMongoCollection<User> users, IMongoCollection<Role> roles) : base(users, roles)
-       {
-       }
-         
+            this.mongoContext = mongoContext;
+            this.userManager = userManager;
+        }                
     }
 }
