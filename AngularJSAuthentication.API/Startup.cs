@@ -24,31 +24,22 @@ namespace AngularJSAuthentication.API
         {
             var builder = new ContainerBuilder();
 
-            builder.RegisterType<MongoContext>().AsImplementedInterfaces<MongoContext, ConcreteReflectionActivatorData>().SingleInstance();
+            builder.RegisterType<MongoContext>().AsImplementedInterfaces<IMongoContext, ConcreteReflectionActivatorData>().SingleInstance();
 
-            builder.RegisterType<AuthRepository>().SingleInstance();
-
-            //builder.RegisterType<AuthRepository>()
-            //    .WithParameters(new Parameter[]
-            //    {
-            //        new ResolvedParameter((info, context) => info.Name == "mongoContext",
-            //            (info, context) => context.Resolve<IMongoContext>()),
-            //        new ResolvedParameter((info, context) => info.Name == "userManager",
-            //            (info, context) => context.Resolve<ApplicationUserManager>())
-            //    }).SingleInstance();
-
-            builder.RegisterType<ApplicationIdentityContext>()
-                .SingleInstance();
-
-            builder.RegisterType<UserStore<User>>()
+            builder.RegisterType<ApplicationUserStore>()
                 .AsImplementedInterfaces<IUserStore<User>, ConcreteReflectionActivatorData>()
                 .SingleInstance();
 
-            builder.RegisterType<RoleStore<Role>>()
-                .AsImplementedInterfaces<IRoleStore<Role>, ConcreteReflectionActivatorData>()
+            builder.RegisterType<ApplicationUserManager>()
                 .SingleInstance();
 
-            builder.RegisterType<ApplicationUserManager>()
+            builder.RegisterType<AuthRepository>().SingleInstance();
+
+            builder.RegisterType<ApplicationIdentityContext>()
+                .SingleInstance();           
+
+            builder.RegisterType<RoleStore<Role>>()
+                .AsImplementedInterfaces<IRoleStore<Role>, ConcreteReflectionActivatorData>()
                 .SingleInstance();
 
             builder.RegisterType<ApplicationRoleManager>()
@@ -59,15 +50,6 @@ namespace AngularJSAuthentication.API
 
             builder.RegisterType<SimpleRefreshTokenProvider>()
                 .AsImplementedInterfaces<IAuthenticationTokenProvider, ConcreteReflectionActivatorData>().SingleInstance();
-
-            //builder.RegisterType<SimpleAuthorizationServerProvider>()
-            //    .AsImplementedInterfaces<IOAuthAuthorizationServerProvider, ConcreteReflectionActivatorData>()
-            //    .WithParameters(new Parameter[]
-            //    {
-            //        new NamedParameter("publicClientId", "self"),
-            //        new ResolvedParameter((info, context) => info.Name == "userManager",
-            //            (info, context) => context.Resolve<ApplicationUserManager>())
-            //    });
 
             builder.RegisterApiControllers(typeof(Startup).Assembly);
 
